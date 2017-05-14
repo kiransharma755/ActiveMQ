@@ -1,0 +1,54 @@
+1- create 3 broker instances broker-1,broker-2 and broker-3
+
+2- change the ports in activemq.xml(broker-2=61626, broker-3=61636)
+3- change the jetty ports for broker-2 and broker-3 (8165 and 8191 )
+4- Add below config in the broker-1 activem1.xml under <broker> tag.
+5-start the broker-3 then broker-2 and broker-1 in the last
+
+<networkConnectors>
+         <networkConnector 
+            name="T:broker1->broker2" 
+            uri="static:(tcp://localhost:61626)" 
+            duplex="false" 
+            decreaseNetworkConsumerPriority="true" 
+            networkTTL="2" 
+            dynamicOnly="true">
+            <excludedDestinations>
+                  <queue physicalName="&gt;" />
+            </excludedDestinations>
+         </networkConnector>
+         <networkConnector 
+            name="Q:broker1->broker2" 
+            uri="static:(tcp://localhost:61626)" 
+            duplex="false" 
+            decreaseNetworkConsumerPriority="true" 
+            networkTTL="2" 
+            dynamicOnly="true">
+            <excludedDestinations>
+                  <topic physicalName="&gt;" />
+            </excludedDestinations>
+         </networkConnector>
+
+         <networkConnector 
+            name="T:broker1->broker3" 
+            uri="static:(tcp://localhost:61636)" 
+            duplex="false" 
+            decreaseNetworkConsumerPriority="true" 
+            networkTTL="2" 
+            dynamicOnly="true">
+            <excludedDestinations>
+                  <queue physicalName="&gt;" />
+            </excludedDestinations>
+         </networkConnector>
+         <networkConnector 
+            name="Q:broker1->broker3" 
+            uri="static:(tcp://localhost:61636)" 
+            duplex="false" 
+            decreaseNetworkConsumerPriority="true" 
+            networkTTL="2" 
+            dynamicOnly="true">
+            <excludedDestinations>
+                  <topic physicalName="&gt;" />
+            </excludedDestinations>
+         </networkConnector>
+     </networkConnectors>
